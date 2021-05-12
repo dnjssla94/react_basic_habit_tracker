@@ -1,24 +1,25 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 
-class Habit extends Component {
-  state = {
-    count: 0,
+class Habit extends PureComponent {
+  handleIncreament = () => {
+    this.props.onIncrease(this.props.habit);
   };
-  handleIncreament = (event) => {
-    this.setState({ count: this.state.count + 1 });
+  handleDecreament = (habit) => {
+    this.props.onDecrease(this.props.habit);
+    // const count = this.state.count - 1;
+    // this.setState({ count: count < 0 ? 0 : count });
   };
-  handleDecreament = (event) => {
-    // if (this.state.count >= 1) {
-    //   this.setState({ count: this.state.count - 1 });
-    // }    //동작은 아래와 같다.
-    const count = this.state.count - 1;
-    this.setState({ count: count < 0 ? 0 : count });
+  handleDelete = (habit) => {
+    this.props.onDelete(this.props.habit);
   };
   render() {
+    console.log("habit", this.props.habit.name);
+    //const habitName = this.props.habit.name;
+    const { name, count } = this.props.habit;
     return (
       <li className="habit">
-        <span className="habit-name">Reading </span>
-        <span className="habit-count">{this.state.count}</span>
+        <span className="habit-name">{name} </span>
+        <span className="habit-count">{count}</span>
         <button
           className="habit-button habit-increase"
           onClick={this.handleIncreament}
@@ -31,7 +32,10 @@ class Habit extends Component {
         >
           <i className="fas fa-minus-square"></i>
         </button>
-        <button className="habit-button habit-delete">
+        <button
+          className="habit-button habit-delete"
+          onClick={this.handleDelete}
+        >
           <i className="fas fa-trash"></i>
         </button>
       </li>
